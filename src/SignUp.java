@@ -16,7 +16,7 @@ public class SignUp {
     }
 
     public void setUserName(String userName) {
-        if (userName.matches("[a-z]+$") && userName.matches("[A-Z]+$") && userName.matches("[0-9]+$")) {
+        if (userName.matches(".*[a-z].*") && userName.matches(".*[A-Z].*") && userName.matches(".*[0-9].*")) {
             this.userName = userName;
         } else {
             System.out.println("Your username must contain upper and lower case letters and numbers");
@@ -25,7 +25,6 @@ public class SignUp {
         }
 
     }
-
     public void setPassword(String password) {
         if (password.matches("[0-9]+$") && password.length() > 4) {
             this.password = password;
@@ -35,5 +34,13 @@ public class SignUp {
             this.setPassword(this.scanner.next());
         }
 
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

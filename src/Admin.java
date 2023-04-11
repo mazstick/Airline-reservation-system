@@ -19,14 +19,17 @@ public class Admin {
                 "    <0> Sign out");
     }
 
+    public Flights flights = new Flights();
+
     public void adminMenu() {
         int choice;
-        Flights flights = new Flights();
+
         while (true) {
             printAdminMenu();
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
+
                     break;
                 case 2:
                     break;
@@ -46,6 +49,24 @@ public class Admin {
         }
     }
 
+    public void add() {
+        int i = flights.findeNullFlight();
+
+        System.out.println("Set FlightId : ");
+        flights.flight[i].setFlightId(scanner.next());
+        System.out.println("Set Origin : ");
+        flights.flight[i].setOrigin(scanner.next());
+        System.out.println("Set Destination : ");
+        flights.flight[i].setDestination(scanner.next());
+        System.out.println("Set Date : ");
+        flights.flight[i].setDate(scanner.next());
+        System.out.println("Set Time : ");
+        flights.flight[i].setTime(scanner.next());
+        System.out.println("Set Price : ");
+        flights.flight[i].setPrice(scanner.next());
+        System.out.println("Set Seat : ");
+        flights.flight[i].setSeat(scanner.next());
+    }
 
     public String getUserName() {
         return userName;

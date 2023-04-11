@@ -7,10 +7,7 @@ public class Main {
     public static Admin admin = new Admin();
     public static Passengers[] passengers = new Passengers[20];
     public static Flights flights = new Flights();
-//    public static Flight[] flight = new Flight[20];
-//    public static Flight f = new Flight();
     public static void main(String[] args) {
-
 
         for (int i = 0; i < 20; i++) {
             passengers[i] = new Passengers();

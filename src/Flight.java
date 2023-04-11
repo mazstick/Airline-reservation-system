@@ -24,14 +24,7 @@ public class Flight {
 
     }
 
-    public void flightSchedules(Flight[] flight){
-        System.out.printf("|%-10s |%-10s |%-10s  |%-10s |%-10s |%-10s |%-10s |\n", "FlightId" , "Origin" , "Destination" , "Date", "Time" , "Price" , "Seat");
-        for (int i = 0; flight[i] != null; i++) {
-            System.out.println("...................................................................................\n");
-            System.out.printf("|%-10s |%-10s |%-10s  |%-10s |%-10s |%-10s |%-10s |\n", flight[i].getFlightId() , flight[i].getOrigin() , flight[i].getDestination() , flight[i].getDate(), flight[i].getTime() , flight[i].getPrice() , flight[i].getSeat());
 
-        }
-    }
 
     public String getFlightId() {
         return flightId;

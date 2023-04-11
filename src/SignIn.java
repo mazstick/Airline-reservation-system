@@ -7,10 +7,10 @@ public class SignIn {
     private String password;
     Scanner scanner = new Scanner(System.in);
 
-    public SignIn(Passengers[] passengers , Admin admin) {
-        checkLogin(passengers , admin);
+    public SignIn(Passengers[] passengers , Admin admin ) {
+        checkLogin(passengers , admin );
     }
-    public void checkLogin(Passengers[] passengers , Admin admin){
+    public void checkLogin(Passengers[] passengers , Admin admin ){
         System.out.println("Enter your username :");
         this.userName = scanner.next();
         System.out.println("Enter your password :");
@@ -18,6 +18,7 @@ public class SignIn {
         if (admin.getUserName().equals(this.userName)){
             if (admin.getPassword().equals(this.password)){
                 System.out.println("Login as admin....");
+                admin.adminMenu();
                 return;
             }
         }
@@ -35,7 +36,7 @@ public class SignIn {
 
         }
         System.out.println("The username not found !!!!");
-        checkLogin(passengers , admin);
+        checkLogin(passengers , admin );
 
     }
 }

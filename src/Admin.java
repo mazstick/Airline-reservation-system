@@ -19,9 +19,9 @@ public class Admin {
                 "    <0> Sign out");
     }
 
-    public Flights flights = new Flights();
 
-    public void adminMenu() {
+
+    public void adminMenu(Flights flights) {
         int choice;
 
         while (true) {
@@ -29,7 +29,7 @@ public class Admin {
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-
+                    add(flights);
                     break;
                 case 2:
                     break;
@@ -39,7 +39,7 @@ public class Admin {
                     flights.flightSchedules();
                     break;
                 case 0:
-                    break;
+                    return;
                 default:
                     System.out.println("Wrong command!!!");
                     break;
@@ -49,9 +49,9 @@ public class Admin {
         }
     }
 
-    public void add() {
+    public void add(Flights flights) {
         int i = flights.findeNullFlight();
-
+        flights.flight[i] = new Flight();
         System.out.println("Set FlightId : ");
         flights.flight[i].setFlightId(scanner.next());
         System.out.println("Set Origin : ");

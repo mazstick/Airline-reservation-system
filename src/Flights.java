@@ -12,6 +12,7 @@ public class Flights {
     }
 
     public void flightSchedules() {
+        flightLib();
         System.out.print(".........................................................................................................................\n");
         System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", "FlightId", "Origin", "Destination", "Date", "Time", "Price", "Seat");
         for (int i = 0; flight[i] != null; i++) {

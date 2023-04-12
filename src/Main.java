@@ -6,14 +6,12 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in);
     public static Admin admin = new Admin();
     public static Passengers[] passengers = new Passengers[20];
-    public static Flights flights = new Flights();
+//    public static Flights flights = new Flights();
     public static void main(String[] args) {
 
         for (int i = 0; i < 20; i++) {
             passengers[i] = new Passengers();
         }
-        flights.flightLib();
-        flights.flightSchedules();
 
         int counter = 0;
         while (true) {

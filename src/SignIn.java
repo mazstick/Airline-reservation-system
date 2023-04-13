@@ -5,13 +5,13 @@ import java.util.Scanner;
 public class SignIn {
     private String userName;
     private String password;
-    public static Flights flights = new Flights();
+//    public static Flights flights = new Flights();
     Scanner scanner = new Scanner(System.in);
 
-    public SignIn(Passengers[] passengers , Admin admin ) {
-        checkLogin(passengers , admin);
+    public SignIn(Passengers[] passengers , Admin admin, Flights flights) {
+        checkLogin(passengers , admin , flights);
     }
-    public void checkLogin(Passengers[] passengers , Admin admin  ){
+    public void checkLogin(Passengers[] passengers , Admin admin  , Flights flights){
         System.out.println("Enter your username :");
         this.userName = scanner.next();
         System.out.println("Enter your password :");
@@ -31,13 +31,13 @@ public class SignIn {
                 }
                 else{
                     System.out.println("The password is incorrect!!!");
-                    checkLogin(passengers , admin );
+                    checkLogin(passengers , admin , flights);
                 }
             }
 
         }
         System.out.println("The username not found !!!!");
-        checkLogin(passengers , admin);
+        checkLogin(passengers , admin , flights);
 
     }
 }

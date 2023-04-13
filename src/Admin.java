@@ -34,9 +34,10 @@ public class Admin {
                 case 2:
                     break;
                 case 3:
+                    remove(flights);
                     break;
                 case 4:
-                    flights.flightSchedules();
+                    flights.flightSchedules(flights);
                     break;
                 case 0:
                     return;
@@ -53,7 +54,7 @@ public class Admin {
         int i = flights.findeNullFlight();
         flights.flight[i] = new Flight();
         System.out.println("Set FlightId : ");
-        flights.flight[i].setFlightId(scanner.next());
+        flights.flight[i].setFlightId(scanner.next() , flights);
         System.out.println("Set Origin : ");
         flights.flight[i].setOrigin(scanner.next());
         System.out.println("Set Destination : ");
@@ -66,6 +67,10 @@ public class Admin {
         flights.flight[i].setPrice(scanner.next());
         System.out.println("Set Seat : ");
         flights.flight[i].setSeat(scanner.next());
+    }
+    public void remove(Flights flights){
+        int i = flights.searchFlight();
+        flights.flight[i]=null;
     }
 
     public String getUserName() {

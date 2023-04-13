@@ -16,8 +16,8 @@ public class Method {
                 case 2:
                     SignUp signUp = new SignUp();
                     passengers[counter] = new Passengers();
-                    passengers[counter].getUserName();
-                    passengers[counter].getPassword();
+                    passengers[counter].setUserName(signUp.getUserName());
+                    passengers[counter].setPassword(signUp.getPassword());
                     counter++;
                     break;
                 default:

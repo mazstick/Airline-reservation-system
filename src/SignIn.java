@@ -27,6 +27,7 @@ public class SignIn {
             if (passengers[i].getUserName().equals(this.userName)) {
                 if (passengers[i].getPassword().equals(this.password)){
                     System.out.println("Login as passengers....");
+                    passengers[i].passengersMenu(flights);
                     return;
                 }
                 else{

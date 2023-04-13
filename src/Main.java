@@ -32,8 +32,6 @@ public class Main {
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + choice);
-
-
             }
         }
     }

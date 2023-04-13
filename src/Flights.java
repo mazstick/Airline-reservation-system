@@ -27,7 +27,7 @@ public class Flights {
         System.out.print(".........................................................................................................................\n");
     }
 
-    public int findeNullFlight() {
+    public int findNullFlight() {
         for (int i = 0; i < flight.length; i++) {
             if (flight[i] == null) {
                 return i;

@@ -14,10 +14,8 @@ public class Method {
                     SignIn signIn = new SignIn(passengers, admin, flights);
                     break;
                 case 2:
-                    SignUp signUp = new SignUp();
                     passengers[counter] = new Passengers();
-                    passengers[counter].setUserName(signUp.getUserName());
-                    passengers[counter].setPassword(signUp.getPassword());
+                    SignUp signUp = new SignUp(passengers[counter]);
                     counter++;
                     break;
                 default:

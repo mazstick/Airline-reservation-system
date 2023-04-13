@@ -98,7 +98,7 @@ public class Admin {
     }
 
     public void add(Flights flights) {
-        int i = flights.findeNullFlight();
+        int i = flights.findNullFlight();
         flights.flight[i] = new Flight();
         System.out.println("Set FlightId : ");
         flights.flight[i].setFlightId(scanner.next() , flights);

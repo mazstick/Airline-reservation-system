@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Passengers {
     public Scanner scanner = new Scanner(System.in);
+
     public Passengers() {
         this.userName = "";
         this.password = "";
@@ -11,7 +12,11 @@ public class Passengers {
 
     private String userName;
     private String password;
-    public void printPassengersMenu(){
+    private int charge;
+
+
+
+    public void printPassengersMenu() {
         System.out.println("::::::::::::::::::::::::::::::::::::::::\n" +
                 "         PASSENGER MENU OPTIONS\n" +
                 "::::::::::::::::::::::::::::::::::::::::\n" +
@@ -24,13 +29,15 @@ public class Passengers {
                 "    <6> Add charge\n" +
                 "    <0> Sign out\n");
     }
-    public void passengersMenu(Flights flights){
-        int choice ;
-        while (true){
+
+    public void passengersMenu(Flights flights) {
+        int choice;
+        while (true) {
             printPassengersMenu();
             choice = scanner.nextInt();
-            switch (choice){
+            switch (choice) {
                 case 1:
+                    changePassword();
                     break;
                 case 2:
                     break;
@@ -41,6 +48,8 @@ public class Passengers {
                 case 5:
                     break;
                 case 6:
+                    System.out.println("Enter the charge amount :");
+                    setCharge(scanner.nextInt());
                     break;
                 case 0:
                     return;
@@ -49,19 +58,49 @@ public class Passengers {
 
     }
 
+    public void changePassword() {
+        System.out.println("Enter your current password :");
+        if (getPassword().equals(scanner.next())){
+            System.out.println("Set new password :");
+            setPassword(scanner.next());
+            System.out.println("--Done--");
+        }
+        else {
+            System.out.println("Wrong password !!");
+        }
+    }
+
     public String getUserName() {
         return userName;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        if (userName.matches(".*[a-z].*") && userName.matches(".*[A-Z].*") && userName.matches(".*[0-9].*")) {
+            this.userName = userName;
+        } else {
+            System.out.println("Your username must contain upper and lower case letters and numbers");
+            System.out.println("Enter your user name again >> ");
+            this.setUserName(this.scanner.next());
+        }
+    }
+    public int getCharge() {
+        return charge;
     }
 
+    public void setCharge(int charge) {
+        this.charge = charge;
+    }
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if (password.matches("[0-9]+$") && password.length() > 4) {
+            this.password = password;
+        } else {
+            System.out.println("Your password must consist of digits (0-9) and have more than 4 digits");
+            System.out.println("Enter your password again >> ");
+            this.setPassword(this.scanner.next());
+        }
     }
 }

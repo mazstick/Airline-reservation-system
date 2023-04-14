@@ -8,18 +8,19 @@ public class Method {
         int counter = 0;
         while (true) {
             printLoginMenu();
-            int choice = scanner.nextInt();
+            String choice = scanner.next();
             switch (choice) {
-                case 1:
+                case "1":
                     SignIn signIn = new SignIn(passengers, admin, flights);
                     break;
-                case 2:
+                case "2":
                     passengers[counter] = new Passengers();
                     SignUp signUp = new SignUp(passengers[counter]);
                     counter++;
                     break;
                 default:
-                    throw new IllegalStateException("Unexpected value: " + choice);
+                    System.out.println("Wrong choice!!");
+                    break;
             }
         }
     }

@@ -13,7 +13,7 @@ public class Passengers {
     private String userName;
     private String password;
     private int charge = 0;
-    private Ticket[] ticket = new Ticket[10];
+    private Tickets tickets = new Tickets();
 
 
     public void printPassengersMenu() {
@@ -49,7 +49,7 @@ public class Passengers {
                 case 5:
                     break;
                 case 6:
-                    System.out.println("You have "+getCharge()+" $ now");
+                    System.out.println("You have " + getCharge() + " $ now");
                     System.out.println("Enter the charge amount :");
                     setCharge(scanner.nextInt());
                     System.out.println("--Done--");
@@ -64,18 +64,33 @@ public class Passengers {
 
     public void changePassword() {
         System.out.println("Enter your current password :");
-        if (getPassword().equals(scanner.next())){
+        if (getPassword().equals(scanner.next())) {
             System.out.println("Set new password :");
             setPassword(scanner.next());
             System.out.println("--Done--");
-        }
-        else {
+        } else {
             System.out.println("Wrong password !!");
         }
     }
-    public void bookingTicket(Flights flights){
+
+    public void bookingTicket(Flights flights) {
         flights.flightSchedules(flights);
+        System.out.print("Book your ticket >>> ");
         int i = flights.searchFlight();
+        int j = tickets.findNullTicket();
+
+        if (flights.flight[i].getSeat().equals("0")) {
+            System.out.println("The flight is full!!");
+        } else {
+            if (Integer.valueOf(flights.flight[i].getPrice()) < getCharge()) {
+                
+            }
+            else {
+                System.out.println("You do not have enough money to get this flight \n" +
+                        "please recharge your account >>");
+            }
+        }
+
     }
 
     public String getUserName() {
@@ -91,6 +106,7 @@ public class Passengers {
             this.setUserName(this.scanner.next());
         }
     }
+
     public int getCharge() {
         return charge;
     }
@@ -99,6 +115,7 @@ public class Passengers {
 
         this.charge += charge;
     }
+
     public String getPassword() {
         return password;
     }

@@ -40,9 +40,11 @@ public class Flights {
         String strtmp = new String();
         System.out.println("Enter FlightId :");
         strtmp = scanner.next();
-        for (int i = 0; flight[i] != null; i++) {
-            if (strtmp.equals(flight[i].getFlightId())) {
-                return i;
+        for (int i = 0; i < flight.length; i++) {
+            if (flight[i]!= null) {
+                if (strtmp.equals(flight[i].getFlightId())) {
+                    return i;
+                }
             }
         }
         return -1;

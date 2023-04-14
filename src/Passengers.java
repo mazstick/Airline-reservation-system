@@ -12,8 +12,8 @@ public class Passengers {
 
     private String userName;
     private String password;
-    private int charge;
-
+    private int charge = 0;
+    private Ticket[] ticket = new Ticket[10];
 
 
     public void printPassengersMenu() {
@@ -42,14 +42,17 @@ public class Passengers {
                 case 2:
                     break;
                 case 3:
+                    bookingTicket(flights);
                     break;
                 case 4:
                     break;
                 case 5:
                     break;
                 case 6:
+                    System.out.println("You have "+getCharge()+" $ now");
                     System.out.println("Enter the charge amount :");
                     setCharge(scanner.nextInt());
+                    System.out.println("--Done--");
                     break;
                 case 0:
                     return;
@@ -57,6 +60,7 @@ public class Passengers {
         }
 
     }
+
 
     public void changePassword() {
         System.out.println("Enter your current password :");
@@ -68,6 +72,10 @@ public class Passengers {
         else {
             System.out.println("Wrong password !!");
         }
+    }
+    public void bookingTicket(Flights flights){
+        flights.flightSchedules(flights);
+        int i = flights.searchFlight();
     }
 
     public String getUserName() {
@@ -88,7 +96,8 @@ public class Passengers {
     }
 
     public void setCharge(int charge) {
-        this.charge = charge;
+
+        this.charge += charge;
     }
     public String getPassword() {
         return password;

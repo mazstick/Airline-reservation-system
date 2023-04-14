@@ -1,9 +1,7 @@
 package src;
 
-import java.util.Scanner;
-
-public class Flight {
-    public Scanner scanner = new Scanner(System.in);
+public class Ticket {
+    private String ticketId;
     private String flightId;
     private String origin;
     private String destination;
@@ -12,36 +10,25 @@ public class Flight {
     private String price;
     private String seat;
 
-    public Flight(String flightId, String origin, String destination, String date, String time, String price, String seat) {
-        this.flightId = flightId;
-        this.origin = origin;
-        this.destination = destination;
-        this.date = date;
-        this.time = time;
-        this.price = price;
-        this.seat = seat;
+
+
+
+
+
+
+    public String getTicketId() {
+        return ticketId;
     }
 
-
-
-    public Flight() {
-
+    public void setTicketId(String ticketId) {
+        this.ticketId = ticketId;
     }
-
-
 
     public String getFlightId() {
         return flightId;
     }
 
-    public void setFlightId(String flightId, Flights flights) {
-        for (int i = 0; flights.flight[i] != null; i++) {
-            if (flightId.equals(flights.flight[i].getFlightId())){
-                System.out.println("This FlightId is already exist \n Enter new FlightId >>");
-                setFlightId(scanner.next() , flights);
-                return;
-            }
-        }
+    public void setFlightId(String flightId) {
         this.flightId = flightId;
     }
 

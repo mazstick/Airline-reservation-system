@@ -30,7 +30,7 @@ public class Passengers {
                 "    <0> Sign out\n");
     }
 
-    public void passengersMenu(Flights flights) {
+    public void passengersMenu(Flights flights , int index) {
         int choice;
         while (true) {
             printPassengersMenu();
@@ -42,7 +42,7 @@ public class Passengers {
                 case 2:
                     break;
                 case 3:
-                    bookingTicket(flights);
+                    bookingTicket(flights , index);
                     break;
                 case 4:
                     break;
@@ -73,19 +73,22 @@ public class Passengers {
         }
     }
 
-    public void bookingTicket(Flights flights) {
+    public void bookingTicket(Flights flights , int index) {
         flights.flightSchedules(flights);
         System.out.print("Book your ticket >>> ");
-        int i = flights.searchFlight();
-        int j = tickets.findNullTicket();
-
+        int i = tickets.findNullTicket();
+        int j = flights.searchFlight();
+        int price = Integer.valueOf(flights.flight[i].getPrice());
         if (flights.flight[i].getSeat().equals("0")) {
             System.out.println("The flight is full!!");
         } else {
-            if (Integer.valueOf(flights.flight[i].getPrice()) < getCharge()) {
-                
+            if ( price <getCharge()){
+                setCharge(-price);
+                tickets.ticket[i] = new Ticket(flights.flight[j].getFlightId() , flights.flight[j].getOrigin() , flights.flight[j].getDestination() , flights.flight[j].getDate() , flights.flight[j].getTime(),flights.flight[j].getPrice(),flights.flight[j].getSeat());
+                tickets.ticket[i].setTicketId(index , i);
+                System.out.println(tickets.ticket[i].getTicketId());
             }
-            else {
+            else{
                 System.out.println("You do not have enough money to get this flight \n" +
                         "please recharge your account >>");
             }

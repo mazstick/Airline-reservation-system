@@ -1,5 +1,6 @@
 package src;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -10,7 +11,6 @@ public class Main {
     public static Flights flights = new Flights();
 
     public static void main(String[] args) {
-
         method.buildArray(passengers , 20);
         flights.flightLib(flights);
         method.mainMenu(passengers ,admin, flights);

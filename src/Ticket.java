@@ -1,5 +1,7 @@
 package src;
 
+import java.util.Random;
+
 public class Ticket {
     private String ticketId;
     private String flightId;
@@ -11,17 +13,26 @@ public class Ticket {
     private String seat;
 
 
-
-
-
-
+    public Ticket(String flightId, String origin, String destination, String date, String time, String price, String seat) {
+        this.flightId = flightId;
+        this.origin = origin;
+        this.destination = destination;
+        this.date = date;
+        this.time = time;
+        this.price = price;
+        this.seat = seat;
+    }
 
     public String getTicketId() {
         return ticketId;
     }
 
-    public void setTicketId(String ticketId) {
-        this.ticketId = ticketId;
+    public void setTicketId(int passengerIndex, int ticketIndex) {
+        Random random = new Random();
+        int y = random.nextInt(90) + 10;
+        String tmp = flightId;
+        tmp = tmp + y + "-" + Integer.toString(passengerIndex + 1) + Integer.toString(ticketIndex + 1);
+        this.ticketId = tmp;
     }
 
     public String getFlightId() {

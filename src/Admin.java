@@ -21,45 +21,54 @@ public class Admin {
     }
 
 
-    public void update(Flights flights){
+    public void update(Flights flights) {
         int i = flights.searchFlight();
+        if (i == -1) {
+            System.out.println("Wrong FlightId !!!");
+            return;
+        }
+        if (flights.flight[i].getReserveCount() > 0) {
+            System.out.println("The flight is booked, you cannot update it !!!");
+            return;
+        }
+
         String strtmp = new String();
         System.out.print(".........................................................................................................................\n");
         System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", flights.flight[i].getFlightId(), flights.flight[i].getOrigin(), flights.flight[i].getDestination(), flights.flight[i].getDate(), flights.flight[i].getTime(), flights.flight[i].getPrice(), flights.flight[i].getSeat());
         System.out.print(".........................................................................................................................\n");
         System.out.println("Set new FlightId :\n" + "   <*>skip");
         strtmp = scanner.next();
-        if (!Objects.equals(strtmp, "*")){
-            flights.flight[i].setFlightId(strtmp , flights);
+        if (!Objects.equals(strtmp, "*")) {
+            flights.flight[i].setFlightId(strtmp, flights);
         }
         System.out.println("Set new Origin :\n" + "   <*>skip");
         strtmp = scanner.next();
-        if (!Objects.equals(strtmp, "*")){
+        if (!Objects.equals(strtmp, "*")) {
             flights.flight[i].setOrigin(strtmp);
         }
         System.out.println("Set new Destination :\n" + "   <*>skip");
         strtmp = scanner.next();
-        if (!Objects.equals(strtmp, "*")){
+        if (!Objects.equals(strtmp, "*")) {
             flights.flight[i].setDestination(strtmp);
         }
         System.out.println("Set new Date :\n" + "   <*>skip");
         strtmp = scanner.next();
-        if (!Objects.equals(strtmp, "*")){
+        if (!Objects.equals(strtmp, "*")) {
             flights.flight[i].setDate(strtmp);
         }
         System.out.println("Set new Time :\n" + "   <*>skip");
         strtmp = scanner.next();
-        if (!Objects.equals(strtmp, "*")){
+        if (!Objects.equals(strtmp, "*")) {
             flights.flight[i].setTime(strtmp);
         }
         System.out.println("Set new Price :\n" + "   <*>skip");
         strtmp = scanner.next();
-        if (!Objects.equals(strtmp, "*")){
+        if (!Objects.equals(strtmp, "*")) {
             flights.flight[i].setPrice(strtmp);
         }
         System.out.println("Set new Seat :\n" + "   <*>skip");
         strtmp = scanner.next();
-        if (!Objects.equals(strtmp, "*")){
+        if (!Objects.equals(strtmp, "*")) {
             flights.flight[i].setSeat(strtmp);
         }
         System.out.println("Flight updated >>");
@@ -67,6 +76,7 @@ public class Admin {
         System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", flights.flight[i].getFlightId(), flights.flight[i].getOrigin(), flights.flight[i].getDestination(), flights.flight[i].getDate(), flights.flight[i].getTime(), flights.flight[i].getPrice(), flights.flight[i].getSeat());
         System.out.print(".........................................................................................................................\n");
     }
+
     public void adminMenu(Flights flights) {
         int choice;
 
@@ -101,7 +111,7 @@ public class Admin {
         int i = flights.findNullFlight();
         flights.flight[i] = new Flight();
         System.out.println("Set FlightId : ");
-        flights.flight[i].setFlightId(scanner.next() , flights);
+        flights.flight[i].setFlightId(scanner.next(), flights);
         System.out.println("Set Origin : ");
         flights.flight[i].setOrigin(scanner.next());
         System.out.println("Set Destination : ");
@@ -115,9 +125,18 @@ public class Admin {
         System.out.println("Set Seat : ");
         flights.flight[i].setSeat(scanner.next());
     }
-    public void remove(Flights flights){
+
+    public void remove(Flights flights) {
         int i = flights.searchFlight();
-        flights.flight[i]=null;
+        if (i == -1) {
+            System.out.println("Wrong FlightId !!!");
+            return;
+        }
+        if (flights.flight[i].getReserveCount() > 0) {
+            System.out.println("The flight is booked, you cannot remove it !!!");
+            return;
+        }
+        flights.flight[i] = null;
     }
 
     public String getUserName() {

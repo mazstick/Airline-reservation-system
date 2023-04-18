@@ -69,6 +69,7 @@ public class Passengers {
         for (int i = 0; i < tickets.ticket.length; i++) {
             if (tickets.ticket[i] != null) {
                 if (tickets.ticket[i].getTicketId().equals(ticketId)) {
+                    flights.flight[tickets.ticket[i].getFlightIndex()].setReserveCount(-1);
                     int tmp = Integer.parseInt(flights.flight[tickets.ticket[i].getFlightIndex()].getSeat());
                     tmp = tmp + 1;
                     flights.flight[tickets.ticket[i].getFlightIndex()].setSeat(Integer.toString(tmp));
@@ -124,6 +125,7 @@ public class Passengers {
                 setCharge(-price);
                 int tmp = Integer.parseInt(flights.flight[j].getSeat());
                 flights.flight[j].setSeat(Integer.toString(tmp - 1));
+                flights.flight[j].setReserveCount(1);
                 tickets.ticket[i] = new Ticket(flights.flight[j].getFlightId(), flights.flight[j].getOrigin(), flights.flight[j].getDestination(), flights.flight[j].getDate(), flights.flight[j].getTime(), flights.flight[j].getPrice(), flights.flight[j].getSeat());
                 tickets.ticket[i].setTicketId(index, i);
                 tickets.ticket[i].setFlightIndex(j);

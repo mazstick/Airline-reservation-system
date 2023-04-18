@@ -11,6 +11,15 @@ public class Flight {
     private String time;
     private String price;
     private String seat;
+    private int reserveCount;
+
+    public int getReserveCount() {
+        return reserveCount;
+    }
+
+    public void setReserveCount(int reserveCount) {
+        this.reserveCount += reserveCount;
+    }
 
     public Flight(String flightId, String origin, String destination, String date, String time, String price, String seat) {
         this.flightId = flightId;

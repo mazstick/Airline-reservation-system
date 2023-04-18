@@ -11,7 +11,15 @@ public class Ticket {
     private String time;
     private String price;
     private String seat;
+    private int flightIndex;
 
+    public int getFlightIndex() {
+        return flightIndex;
+    }
+
+    public void setFlightIndex(int flightIndex) {
+        this.flightIndex = flightIndex;
+    }
 
     public Ticket(String flightId, String origin, String destination, String date, String time, String price, String seat) {
         this.flightId = flightId;

@@ -40,6 +40,7 @@ public class Passengers {
                     changePassword();
                     break;
                 case 2:
+                    SearchTicket searchTicket = new SearchTicket(tickets);
                     break;
                 case 3:
                     bookingTicket(flights, index);
@@ -124,9 +125,9 @@ public class Passengers {
             if (price < getCharge()) {
                 setCharge(-price);
                 int tmp = Integer.parseInt(flights.flight[j].getSeat());
-                flights.flight[j].setSeat(Integer.toString(tmp - 1));
                 flights.flight[j].setReserveCount(1);
                 tickets.ticket[i] = new Ticket(flights.flight[j].getFlightId(), flights.flight[j].getOrigin(), flights.flight[j].getDestination(), flights.flight[j].getDate(), flights.flight[j].getTime(), flights.flight[j].getPrice(), flights.flight[j].getSeat());
+                flights.flight[j].setSeat(Integer.toString(tmp - 1));
                 tickets.ticket[i].setTicketId(index, i);
                 tickets.ticket[i].setFlightIndex(j);
                 System.out.println(tickets.ticket[i].getTicketId());

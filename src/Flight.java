@@ -17,6 +17,10 @@ public class Flight {
         return reserveCount;
     }
 
+    /**
+     * Set how many passenger reserve this flight
+     * @param reserveCount
+     */
     public void setReserveCount(int reserveCount) {
         this.reserveCount += reserveCount;
     }
@@ -45,7 +49,8 @@ public class Flight {
 
     public void setFlightId(String flightId, Flights flights) {
         for (int i = 0; flights.flight[i] != null; i++) {
-            if (flightId.equals(flights.flight[i].getFlightId())){
+            if (flightId.equals(flights.flight[i].getFlightId())) // Do not accept if the flight number is duplicated
+            {
                 System.out.println("This FlightId is already exist \n Enter new FlightId >>");
                 setFlightId(scanner.next() , flights);
                 return;

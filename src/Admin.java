@@ -20,7 +20,10 @@ public class Admin {
                 "    <0> Sign out");
     }
 
-
+    /**
+     * Admin can update a Flight features by using flight id
+     * @param flights array of flights
+     */
     public void update(Flights flights) {
         int i = flights.searchFlight();
         if (i == -1) {
@@ -94,7 +97,7 @@ public class Admin {
                     remove(flights);
                     break;
                 case 4:
-                    flights.flightSchedules(flights);
+                    flights.flightSchedule(flights);
                     break;
                 case 0:
                     return;
@@ -107,8 +110,16 @@ public class Admin {
         }
     }
 
+    /**
+     * Admin add a new flight
+     * @param flights
+     */
     public void add(Flights flights) {
         int i = flights.findNullFlight();
+        if (i == -1){
+            System.out.println("Flight list is full !!");
+            return;
+        }
         flights.flight[i] = new Flight();
         System.out.println("Set FlightId : ");
         flights.flight[i].setFlightId(scanner.next(), flights);
@@ -126,6 +137,11 @@ public class Admin {
         flights.flight[i].setSeat(scanner.next());
     }
 
+    /**
+     * Admin remove a flight
+     * <p>if the flight reserved by passenger admin can not remove it<p/>
+     * @param flights
+     */
     public void remove(Flights flights) {
         int i = flights.searchFlight();
         if (i == -1) {

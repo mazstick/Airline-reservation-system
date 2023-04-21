@@ -35,11 +35,20 @@ public class Ticket {
         return ticketId;
     }
 
-    public void setTicketId(int passengerIndex, int ticketIndex) {
+    /**
+     * This function build a ticket id for reserved ticket
+     * <p>ticket id contain : (flight id)+(random number)+(passenger index)+(flight index) <p/>
+     * <p>
+     * The ticket id is unique >> Each ticket has unique passenger index and unique flight index
+     * </p>
+     * @param passengerIndex index of this passenger in passenger array
+     * @param flightIndex index of this flight in flight array
+     */
+    public void setTicketId(int passengerIndex, int flightIndex) {
         Random random = new Random();
         int y = random.nextInt(90) + 10;
         String tmp = flightId;
-        tmp = tmp + y + "-" + Integer.toString(passengerIndex + 1) + Integer.toString(ticketIndex + 1);
+        tmp = tmp + y + "-" + Integer.toString(passengerIndex + 1) + Integer.toString(flightIndex + 1);
         this.ticketId = tmp;
     }
 

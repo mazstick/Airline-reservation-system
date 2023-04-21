@@ -6,6 +6,10 @@ public class Flights {
     public Flight[] flight = new Flight[60];
     public Scanner scanner = new Scanner(System.in);
 
+    /**
+     * This method is a flight library , it's set 10 flights
+     * @param flights
+     */
     public void flightLib(Flights flights) {
         flights.flight[0] = new Flight("YT-30", "Yazd", "Tehran", "1402-01-20", "13:15", "500000", "300");
         flights.flight[1] = new Flight("MG-43", "Mashhad", "Ghazvin", "1402-01-17", "12:30", "2000000", "123");
@@ -20,7 +24,11 @@ public class Flights {
 
     }
 
-    public void flightSchedules(Flights flights) {
+    /**
+     * This method print flight schedule
+     * @param flights
+     */
+    public void flightSchedule(Flights flights) {
         System.out.print(".........................................................................................................................\n");
         System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", "FlightId", "Origin", "Destination", "Date", "Time", "Price", "Seat");
         for (int i = 0; i < flights.flight.length; i++) {
@@ -42,6 +50,10 @@ public class Flights {
         return -1;
     }
 
+    /**
+     * Search flight by using flight id
+     * @return index of flight in flights array
+     */
     public int searchFlight() {
         String strtmp ;
         System.out.println("Enter FlightId :");

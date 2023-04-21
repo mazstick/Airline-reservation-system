@@ -14,6 +14,10 @@ public class SearchTicket {
     private int seat;
     Scanner scanner = new Scanner(System.in);
 
+    /**
+     * The user determines the ticket based on which feature or features to filter
+     * @param tickets
+     */
     public SearchTicket(Tickets tickets) {
         for (int i = 0; i < 7; i++) {
             searchList[i] = false;
@@ -86,6 +90,11 @@ public class SearchTicket {
 
     }
 
+    /**
+     * If all the features specified by the user are available in a ticket, the ticket should be printed using this method
+     * @param searchList
+     * @param tickets
+     */
     public void findAndFilter(boolean[] searchList, Tickets tickets) {
         boolean[] sample = new boolean[7];
         for (int i = 0; i < 7; i++) {

@@ -12,7 +12,11 @@ public class Passengers {
 
     private String userName;
     private String password;
+    /**
+     * Charge is 0 when the new passenger sign up for first time
+     */
     private int charge = 0;
+
     private Tickets tickets = new Tickets();
 
 
@@ -36,34 +40,39 @@ public class Passengers {
             printPassengersMenu();
             choice = scanner.nextInt();
             switch (choice) {
-                case 1:
+                case 1://Change password
                     changePassword();
                     break;
-                case 2:
+                case 2://Search flight tickets
                     SearchTicket searchTicket = new SearchTicket(tickets);
                     break;
-                case 3:
+                case 3://Booking ticket
                     bookingTicket(flights, index);
                     break;
-                case 4:
+                case 4://Ticket cancelation
                     ticketCancelation(flights);
                     break;
-                case 5:
+                case 5://Booked tickets
                     bookedTickets();
                     break;
-                case 6:
+                case 6://Add charge
                     System.out.println("You have " + getCharge() + " $ now");
                     System.out.println("Enter the charge amount :");
                     setCharge(scanner.nextInt());
                     System.out.println("--Done--");
                     break;
-                case 0:
+                case 0://Sign out
                     return;
             }
         }
 
     }
 
+    /**
+     * Cancel a ticket that user booked
+     * This process is done using ticket id
+     * @param flights
+     */
     private void ticketCancelation(Flights flights) {
         System.out.println("Please enter your TicketId >>>");
         String ticketId = scanner.next();
@@ -84,6 +93,9 @@ public class Passengers {
         System.out.println("Cannot find your TicketId!!!");
     }
 
+    /**
+     * This method print booked ticket
+     */
     private void bookedTickets() {
 
         System.out.print("..........................................................................................................................................\n");
@@ -97,7 +109,9 @@ public class Passengers {
         System.out.print("..........................................................................................................................................\n");
     }
 
-
+    /**
+     * Passenger change the account password
+     */
     public void changePassword() {
         System.out.println("Enter your current password :");
         if (getPassword().equals(scanner.next())) {
@@ -109,11 +123,16 @@ public class Passengers {
         }
     }
 
+    /**
+     * book the ticket by using flight id
+     * @param flights
+     * @param index index of array list of flights , this parameter use for build the ticket id
+     */
     public void bookingTicket(Flights flights, int index) {
-        flights.flightSchedules(flights);
+        flights.flightSchedule(flights);
         System.out.print("Book your ticket >>> ");
-        int i = tickets.findNullTicket();
-        int j = flights.searchFlight();
+        int i = tickets.findNullTicket(); // find null ticket in tickets array
+        int j = flights.searchFlight();   // search the flights by using flight id
         if (j == -1) {
             System.out.println("Wrong FlightId !!!");
             return;
@@ -130,6 +149,7 @@ public class Passengers {
                 flights.flight[j].setSeat(Integer.toString(tmp - 1));
                 tickets.ticket[i].setTicketId(index, i);
                 tickets.ticket[i].setFlightIndex(j);
+                System.out.print("your ticket id >> ");
                 System.out.println(tickets.ticket[i].getTicketId());
                 System.out.println("---Done---");
             } else {

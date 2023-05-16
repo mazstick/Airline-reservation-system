@@ -3,7 +3,7 @@ package src;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Admin {
+public class Admin extends Data {
     public Scanner scanner = new Scanner(System.in);
     private final String userName = "Admin";
     private final String password = "Admin";
@@ -13,15 +13,20 @@ public class Admin {
                 "           Admin MENUE OPTIONS\n" +
                 "::::::::::::::::::::::::::::::::::::::::\n" +
                 " ......................................\n" +
-                "    <1> Add\n" +
-                "    <2> Update\n" +
-                "    <3> Remove\n" +
-                "    <4> Flight schedules\n" +
+                "    <1> Add\n" +                       //write data
+                "    <2> Update\n" +                    //write data
+                "    <3> Remove\n" +                    //write data
+                "    <4> Flight schedules\n" +          //read data
                 "    <0> Sign out");
     }
 
+
+    //=======================================   update   =============================
+
+
     /**
      * Admin can update a Flight features by using flight id
+     *
      * @param flights array of flights
      */
     public void update(Flights flights) {
@@ -80,6 +85,10 @@ public class Admin {
         System.out.print(".........................................................................................................................\n");
     }
 
+
+    //=======================================   admin menu   =============================
+
+
     public void adminMenu(Flights flights) {
         int choice;
 
@@ -110,13 +119,17 @@ public class Admin {
         }
     }
 
+
+//=======================================   add   =============================
+
     /**
      * Admin add a new flight
+     *
      * @param flights
      */
     public void add(Flights flights) {
         int i = flights.findNullFlight();
-        if (i == -1){
+        if (i == -1) {
             System.out.println("Flight list is full !!");
             return;
         }
@@ -136,10 +149,12 @@ public class Admin {
         System.out.println("Set Seat : ");
         flights.flight[i].setSeat(scanner.next());
     }
+//=======================================   remove   =============================
 
     /**
      * Admin remove a flight
      * <p>if the flight reserved by passenger admin can not remove it<p/>
+     *
      * @param flights
      */
     public void remove(Flights flights) {

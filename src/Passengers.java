@@ -2,7 +2,7 @@ package src;
 
 import java.util.Scanner;
 
-public class Passengers {
+public class Passengers extends Data{
     public Scanner scanner = new Scanner(System.in);
 
     public Passengers() {
@@ -25,12 +25,12 @@ public class Passengers {
                 "         PASSENGER MENU OPTIONS\n" +
                 "::::::::::::::::::::::::::::::::::::::::\n" +
                 " ......................................\n" +
-                "    <1> Change password\n" +
-                "    <2> Search flight tickets\n" +
-                "    <3> Booking ticket\n" +
-                "    <4> Ticket cancelation\n" +
-                "    <5> Booked tickets\n" +
-                "    <6> Add charge\n" +
+                "    <1> Change password\n" +               //write data
+                "    <2> Search flight tickets\n" +         //read data
+                "    <3> Booking ticket\n" +                //read & write data
+                "    <4> Ticket cancelation\n" +            //read & write data
+                "    <5> Booked tickets\n" +                //read data
+                "    <6> Add charge\n" +                    //write data
                 "    <0> Sign out\n");
     }
 
@@ -78,11 +78,12 @@ public class Passengers {
         String ticketId = scanner.next();
         for (int i = 0; i < tickets.ticket.length; i++) {
             if (tickets.ticket[i] != null) {
+                int index = tickets.ticket[i].getFlightIndex();
                 if (tickets.ticket[i].getTicketId().equals(ticketId)) {
-                    flights.flight[tickets.ticket[i].getFlightIndex()].setReserveCount(-1);
-                    int tmp = Integer.parseInt(flights.flight[tickets.ticket[i].getFlightIndex()].getSeat());
+                    flights.flight[index].setReserveCount(-1);
+                    int tmp = Integer.parseInt(flights.flight[index].getSeat());
                     tmp = tmp + 1;
-                    flights.flight[tickets.ticket[i].getFlightIndex()].setSeat(Integer.toString(tmp));
+                    flights.flight[index].setSeat(Integer.toString(tmp));
                     setCharge(Integer.parseInt(tickets.ticket[i].getPrice()));
                     tickets.ticket[i] = null;
                     System.out.println("---Ticket canceled---");

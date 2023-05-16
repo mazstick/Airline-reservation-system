@@ -3,7 +3,7 @@ package src;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Admin extends Data {
+public class Admin extends DataManagement {
     public Scanner scanner = new Scanner(System.in);
     private final String userName = "Admin";
     private final String password = "Admin";

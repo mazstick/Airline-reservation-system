@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 
 public class Data {
-    private RandomAccessFile flightData;
+    protected RandomAccessFile flightData;
     {
         try {
             flightData = new RandomAccessFile(".\\data\\flightData.dat" ,"rw");
@@ -12,7 +12,7 @@ public class Data {
             throw new RuntimeException(e);
         }
     }
-    private RandomAccessFile passengersData;
+    protected RandomAccessFile passengersData;
     {
         try {
             passengersData = new RandomAccessFile(".\\data\\passengersData.dat" ,"rw");
@@ -20,7 +20,7 @@ public class Data {
             throw new RuntimeException(e);
         }
     }
-    private RandomAccessFile ticketsData;
+    protected RandomAccessFile ticketsData;
     {
         try {
             ticketsData = new RandomAccessFile(".\\data\\ticketsData.dat" , "rw");

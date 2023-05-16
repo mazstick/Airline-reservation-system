@@ -2,7 +2,7 @@ package src;
 
 import java.util.Scanner;
 
-public class Passengers extends Data{
+public class Passengers extends DataManagement{
     public Scanner scanner = new Scanner(System.in);
 
     public Passengers() {

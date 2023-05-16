@@ -48,7 +48,7 @@ public class Ticket {
         Random random = new Random();
         int y = random.nextInt(90) + 10;
         String tmp = flightId;
-        tmp = tmp + y + "-" + Integer.toString(passengerIndex + 1) + Integer.toString(flightIndex + 1);
+        tmp = tmp + y + "-" + Integer.toString(passengerIndex + 1) +"-"+ Integer.toString(flightIndex + 1);
         this.ticketId = tmp;
     }
 

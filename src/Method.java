@@ -1,5 +1,6 @@
 package src;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Method {
@@ -12,7 +13,7 @@ public class Method {
      * @param admin
      * @param flights the class of flight array
      */
-    public void mainMenu(Passengers[] passengers , Admin admin , Flights flights){
+    public void mainMenu(Passengers[] passengers , Admin admin , Flights flights) throws IOException {
         int counter = 0;
         while (true) {
             printLoginMenu();
@@ -22,9 +23,10 @@ public class Method {
                     SignIn signIn = new SignIn(passengers, admin, flights);
                     break;
                 case "2": // sign up
-                    passengers[counter] = new Passengers();
-                    SignUp signUp = new SignUp(passengers[counter]);
-                    counter++;
+//                    passengers[counter] = new Passengers();
+//                    SignUp signUp = new SignUp(passengers[counter]);
+//                    counter++;
+                    SignUp signUp =new SignUp();
                     break;
                 default:
                     System.out.println("Wrong choice!!");

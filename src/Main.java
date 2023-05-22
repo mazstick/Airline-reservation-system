@@ -1,5 +1,6 @@
 package src;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -18,7 +19,7 @@ public class Main {
     public static Passengers[] passengers = new Passengers[20];
     public static Flights flights = new Flights();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         method.buildArray(passengers, 20);
         flights.flightLib(flights);
         method.mainMenu(passengers, admin, flights);

@@ -4,10 +4,22 @@ import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 
 public class Data {
+    protected String flightDataPath = ".\\data\\flightData.txt";
+    protected String passengersDataPath = ".\\data\\passengersData.txt";
+    protected String ticketDataPath = ".\\data\\ticketsData.txt";
+    public RandomAccessFile open(String path ) {
+        RandomAccessFile rfile;
+        try {
+            rfile = new RandomAccessFile(path, "rw");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return rfile;
+    }
     protected RandomAccessFile flightData;
     {
         try {
-            flightData = new RandomAccessFile(".\\data\\flightData.dat" ,"rw");
+            flightData = new RandomAccessFile(flightDataPath ,"rw");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -15,15 +27,16 @@ public class Data {
     protected RandomAccessFile passengersData;
     {
         try {
-            passengersData = new RandomAccessFile(".\\data\\passengersData.dat" ,"rw");
+            passengersData = new RandomAccessFile(passengersDataPath ,"rw");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
+
     protected RandomAccessFile ticketsData;
     {
         try {
-            ticketsData = new RandomAccessFile(".\\data\\ticketsData.dat" , "rw");
+            ticketsData = new RandomAccessFile(ticketDataPath, "rw");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

@@ -67,6 +67,38 @@ public class Passengers extends DataManagement{
         }
 
     }
+    public void passengersMenu(){
+        int choice;
+        while (true) {
+            printPassengersMenu();
+            choice = scanner.nextInt();
+            switch (choice) {
+                case 1://Change password
+                    changePassword();
+                    break;
+                case 2://Search flight tickets
+                    SearchTicket searchTicket = new SearchTicket(tickets);
+                    break;
+                case 3://Booking ticket
+//                    bookingTicket(flights, index);
+                    break;
+                case 4://Ticket cancelation
+//                    ticketCancelation(flights);
+                    break;
+                case 5://Booked tickets
+                    bookedTickets();
+                    break;
+                case 6://Add charge
+                    System.out.println("You have " + getCharge() + " $ now");
+                    System.out.println("Enter the charge amount :");
+                    setCharge(scanner.nextInt());
+                    System.out.println("--Done--");
+                    break;
+                case 0://Sign out
+                    return;
+            }
+        }
+    }
 
     /**
      * Cancel a ticket that user booked

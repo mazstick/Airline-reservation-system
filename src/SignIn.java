@@ -57,14 +57,14 @@ public class SignIn extends DataManagement {
 //        }
         passengersData = open(passengersDataPath);
         long size = passengersData.length();
-        for (int i = 0; i < size / (4 * FIXED_SIZE); i++) {
-            passengersData.seek(i * 4 * FIXED_SIZE);
+//        System.out.println(passengersData.length());
+        for (int i = 0; i < size / (4 * FIXED_SIZE + 4 ); i++) {
+            passengersData.seek(i * (4 * FIXED_SIZE + 4));
             if (readPassengerString().equals(userName)) {
-//                passengersData.seek(i * 4 * FIXED_SIZE + 2 * FIXED_SIZE);
                 if (readPassengerString().equals(password)) {
                     System.out.println("Login as passengers....");
                     Passengers passenger = new Passengers();
-                    passenger.passengersMenu();
+                    passenger.passengersMenu(passengersData.getFilePointer());
                     return;
                 } else {
                     System.out.println("The password is incorrect!!!");

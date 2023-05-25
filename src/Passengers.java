@@ -1,8 +1,10 @@
 package src;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
-public class Passengers extends DataManagement{
+public class Passengers extends DataManagement {
     public Scanner scanner = new Scanner(System.in);
 
     public Passengers() {
@@ -17,7 +19,7 @@ public class Passengers extends DataManagement{
      */
     private int charge = 0;
 
-    private Tickets tickets = new Tickets();
+    private final Tickets tickets = new Tickets();
 
 
     public void printPassengersMenu() {
@@ -67,14 +69,18 @@ public class Passengers extends DataManagement{
         }
 
     }
-    public void passengersMenu(){
+
+    public void passengersMenu(long passengerPassPointer) throws IOException {
+//        System.out.println(passengerPassPointer);
         int choice;
         while (true) {
             printPassengersMenu();
             choice = scanner.nextInt();
             switch (choice) {
                 case 1://Change password
-                    changePassword();
+                    passengersData = open(passengersDataPath);
+                    passengersData.seek(passengerPassPointer - (2 * FIXED_SIZE));
+                    changePassword(passengersDataPath);
                     break;
                 case 2://Search flight tickets
                     SearchTicket searchTicket = new SearchTicket(tickets);
@@ -89,9 +95,14 @@ public class Passengers extends DataManagement{
                     bookedTickets();
                     break;
                 case 6://Add charge
-                    System.out.println("You have " + getCharge() + " $ now");
+                    passengersData = open(passengersDataPath);
+                    passengersData.seek(passengerPassPointer);
+                    System.out.println("You have " + passengersData.readInt() + " $ now");
                     System.out.println("Enter the charge amount :");
-                    setCharge(scanner.nextInt());
+                    passengersData.seek(passengerPassPointer);
+                    int tmp = scanner.nextInt();
+                    passengersData.writeInt(tmp);
+                    passengersData.close();
                     System.out.println("--Done--");
                     break;
                 case 0://Sign out
@@ -103,6 +114,7 @@ public class Passengers extends DataManagement{
     /**
      * Cancel a ticket that user booked
      * This process is done using ticket id
+     *
      * @param flights
      */
     private void ticketCancelation(Flights flights) {
@@ -156,10 +168,26 @@ public class Passengers extends DataManagement{
         }
     }
 
+    public void changePassword(String path) throws IOException {
+//        passengersData = open(path);
+        System.out.println("Enter your current password :");
+        if (readPassengerString().equals(scanner.next())) {
+            System.out.println("Set new password :");
+            passengersData.seek(passengersData.getFilePointer() - (2 * FIXED_SIZE));
+            passengersData.writeChars(fixedStringToWrite(scanner.next()));
+            System.out.println("--Done--");
+            passengersData.close();
+        } else {
+            System.out.println("Wrong password !!");
+            passengersData.close();
+        }
+    }
+
     /**
      * book the ticket by using flight id
+     *
      * @param flights
-     * @param index index of array list of flights , this parameter use for build the ticket id
+     * @param index   index of array list of flights , this parameter use for build the ticket id
      */
     public void bookingTicket(Flights flights, int index) {
         flights.flightSchedule(flights);

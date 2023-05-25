@@ -16,30 +16,12 @@ public class Data {
         }
         return rfile;
     }
-    protected RandomAccessFile flightData;
-    {
-        try {
-            flightData = new RandomAccessFile(flightDataPath ,"rw");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    protected RandomAccessFile passengersData;
-    {
-        try {
-            passengersData = new RandomAccessFile(passengersDataPath ,"rw");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    protected RandomAccessFile flightData = open(flightDataPath);
 
-    protected RandomAccessFile ticketsData;
-    {
-        try {
-            ticketsData = new RandomAccessFile(ticketDataPath, "rw");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    protected RandomAccessFile passengersData = open(passengersDataPath);
+
+
+    protected RandomAccessFile ticketsData = open(ticketDataPath);
+
 
 }

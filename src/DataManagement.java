@@ -10,6 +10,7 @@ public class DataManagement extends Data {
         passengersData.seek(passengersData.length());
         passengersData.writeChars(fixedStringToWrite(passenger.getUserName()));
         passengersData.writeChars(fixedStringToWrite(passenger.getPassword()));
+        passengersData.writeInt(0);
         passengersData.close();
     }
 
@@ -21,7 +22,7 @@ public class DataManagement extends Data {
         return str.trim();
     }
 
-    private String fixedStringToWrite(String st) {
+    public String fixedStringToWrite(String st) {
         while (true) {
             if (st.length() < FIXED_SIZE) {
                 st += " ";

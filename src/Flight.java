@@ -1,8 +1,9 @@
 package src;
 
+import java.io.IOException;
 import java.util.Scanner;
 
-public class Flight {
+public class Flight extends DataManagement {
     public Scanner scanner = new Scanner(System.in);
     private String flightId;
     private String origin;
@@ -19,6 +20,7 @@ public class Flight {
 
     /**
      * Set how many passenger reserve this flight
+     *
      * @param reserveCount
      */
     public void setReserveCount(int reserveCount) {
@@ -36,11 +38,9 @@ public class Flight {
     }
 
 
-
     public Flight() {
 
     }
-
 
 
     public String getFlightId() {
@@ -52,7 +52,20 @@ public class Flight {
             if (flightId.equals(flights.flight[i].getFlightId())) // Do not accept if the flight number is duplicated
             {
                 System.out.println("This FlightId is already exist \n Enter new FlightId >>");
-                setFlightId(scanner.next() , flights);
+                setFlightId(scanner.next(), flights);
+                return;
+            }
+        }
+        this.flightId = flightId;
+    }
+
+    public void setFlightId(String flightId) throws IOException {
+        flightData = open(flightDataPath);
+        for (int i = 0; i < flightData.length() / (12 * FIXED_SIZE + 4); i++) {
+            flightData.seek(i * (12 * FIXED_SIZE + 4));
+            if (readString(flightData).equals(flightId)) {
+                System.out.println("This FlightId is already exist \n Enter new FlightId >>");
+                setFlightId(scanner.next());
                 return;
             }
         }

@@ -37,7 +37,7 @@ public class SignIn extends DataManagement {
         if (admin.getUserName().equals(this.userName) || this.userName.equals("admin")) {
             if (admin.getPassword().equals(this.password) || this.userName.equals("admin")) {
                 System.out.println("Login as admin....");
-                admin.adminMenu(flights);
+                admin.adminMenu();
                 return;
             }
         }
@@ -60,8 +60,8 @@ public class SignIn extends DataManagement {
 //        System.out.println(passengersData.length());
         for (int i = 0; i < size / (4 * FIXED_SIZE + 4 ); i++) {
             passengersData.seek(i * (4 * FIXED_SIZE + 4));
-            if (readPassengerString().equals(userName)) {
-                if (readPassengerString().equals(password)) {
+            if (readString(passengersData).equals(userName)) {
+                if (readString(passengersData).equals(password)) {
                     System.out.println("Login as passengers....");
                     Passengers passenger = new Passengers();
                     passenger.passengersMenu(passengersData.getFilePointer());

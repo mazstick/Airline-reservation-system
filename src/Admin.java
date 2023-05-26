@@ -1,5 +1,6 @@
 package src;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -85,7 +86,8 @@ public class Admin extends DataManagement {
         System.out.print(".........................................................................................................................\n");
     }
 
-
+    private void update() {
+    }
     //=======================================   admin menu   =============================
 
 
@@ -119,6 +121,38 @@ public class Admin extends DataManagement {
         }
     }
 
+    public void adminMenu() throws IOException {
+        String choice;
+
+        while (true) {
+            printAdminMenu();
+            choice = scanner.next();
+            switch (choice) {
+                case "1":
+                    add();
+                    break;
+                case "2":
+                    update();
+                    break;
+                case "3":
+                    remove();
+                    break;
+                case "4":
+//                    flights.flightSchedule(flights);
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("Wrong command!!!");
+                    break;
+
+            }
+
+        }
+    }
+
+
+
 
 //=======================================   add   =============================
 
@@ -149,6 +183,24 @@ public class Admin extends DataManagement {
         System.out.println("Set Seat : ");
         flights.flight[i].setSeat(scanner.next());
     }
+    public void add() throws IOException {
+        Flight flight = new Flight();
+        System.out.println("Set FlightId : ");
+        flight.setFlightId(scanner.next());
+        System.out.println("Set Origin : ");
+        flight.setOrigin(scanner.next());
+        System.out.println("Set Destination : ");
+        flight.setDestination(scanner.next());
+        System.out.println("Set Date : ");
+        flight.setDate(scanner.next());
+        System.out.println("Set Time : ");
+        flight.setTime(scanner.next());
+        System.out.println("Set Price : ");
+        flight.setPrice(scanner.next());
+        System.out.println("Set Seat : ");
+        flight.setSeat(scanner.next());
+        writeFlight(flight);
+    }
 //=======================================   remove   =============================
 
     /**
@@ -168,6 +220,8 @@ public class Admin extends DataManagement {
             return;
         }
         flights.flight[i] = null;
+    }
+    private void remove() {
     }
 
     public String getUserName() {

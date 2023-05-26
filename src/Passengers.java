@@ -36,7 +36,7 @@ public class Passengers extends DataManagement {
                 "    <0> Sign out\n");
     }
 
-    public void passengersMenu(Flights flights, int index) {
+    public void passengersMenu(Flights flights, int index) throws IOException {
         int choice;
         while (true) {
             printPassengersMenu();
@@ -80,7 +80,7 @@ public class Passengers extends DataManagement {
                 case 1://Change password
                     passengersData = open(passengersDataPath);
                     passengersData.seek(passengerPassPointer - (2 * FIXED_SIZE));
-                    changePassword(passengersDataPath);
+                    changePassword();
                     break;
                 case 2://Search flight tickets
                     SearchTicket searchTicket = new SearchTicket(tickets);
@@ -95,20 +95,24 @@ public class Passengers extends DataManagement {
                     bookedTickets();
                     break;
                 case 6://Add charge
-                    passengersData = open(passengersDataPath);
-                    passengersData.seek(passengerPassPointer);
-                    System.out.println("You have " + passengersData.readInt() + " $ now");
-                    System.out.println("Enter the charge amount :");
-                    passengersData.seek(passengerPassPointer);
-                    int tmp = scanner.nextInt();
-                    passengersData.writeInt(tmp);
-                    passengersData.close();
-                    System.out.println("--Done--");
+                    addCharge(passengerPassPointer);
                     break;
                 case 0://Sign out
                     return;
             }
         }
+    }
+
+    private void addCharge(long pos) throws IOException {
+        passengersData = open(passengersDataPath);
+        passengersData.seek(pos);
+        System.out.println("You have " + passengersData.readInt() + " $ now");
+        System.out.println("Enter the charge amount :");
+        passengersData.seek(pos);
+        int tmp = scanner.nextInt();
+        passengersData.writeInt(tmp);
+        passengersData.close();
+        System.out.println("--Done--");
     }
 
     /**
@@ -157,21 +161,21 @@ public class Passengers extends DataManagement {
     /**
      * Passenger change the account password
      */
-    public void changePassword() {
-        System.out.println("Enter your current password :");
-        if (getPassword().equals(scanner.next())) {
-            System.out.println("Set new password :");
-            setPassword(scanner.next());
-            System.out.println("--Done--");
-        } else {
-            System.out.println("Wrong password !!");
-        }
-    }
+//    public void changePassword() {
+//        System.out.println("Enter your current password :");
+//        if (getPassword().equals(scanner.next())) {
+//            System.out.println("Set new password :");
+//            setPassword(scanner.next());
+//            System.out.println("--Done--");
+//        } else {
+//            System.out.println("Wrong password !!");
+//        }
+//    }
 
-    public void changePassword(String path) throws IOException {
+    public void changePassword() throws IOException {
 //        passengersData = open(path);
         System.out.println("Enter your current password :");
-        if (readPassengerString().equals(scanner.next())) {
+        if (readString(passengersData).equals(scanner.next())) {
             System.out.println("Set new password :");
             passengersData.seek(passengersData.getFilePointer() - (2 * FIXED_SIZE));
             passengersData.writeChars(fixedStringToWrite(scanner.next()));

@@ -16,14 +16,13 @@ public class DataManagement extends Data {
     }
 
     public void writeFlight(Flight flight) throws IOException {
-        flightData = open(flightDataPath);
-        flightData.seek(flightData.length());
         flightData.writeChars(fixedStringToWrite(flight.getFlightId()));
         flightData.writeChars(fixedStringToWrite(flight.getOrigin()));
         flightData.writeChars(fixedStringToWrite(flight.getDestination()));
         flightData.writeChars(fixedStringToWrite(flight.getDate()));
         flightData.writeChars(fixedStringToWrite(flight.getTime()));
         flightData.writeChars(fixedStringToWrite(flight.getPrice()));
+        flightData.writeChars(fixedStringToWrite(flight.getSeat()));
         flightData.writeInt(0);  //reservation counter
         flightData.close();
     }
@@ -34,6 +33,17 @@ public class DataManagement extends Data {
             str = str + rfile.readChar();
         }
         return str.trim();
+    }
+
+    public boolean searchFlightById(String flightId) throws IOException {
+        for (int i = 0; i < flightData.length() / (14 * FIXED_SIZE + 4); i++) {
+            flightData.seek(i * (14 * FIXED_SIZE + 4));
+            if (readString(flightData).equals(flightId)) {
+                flightData.seek(flightData.getFilePointer() - 2 * FIXED_SIZE);
+                return true;
+            }
+        }
+        return false;
     }
 
     public String fixedStringToWrite(String st) {

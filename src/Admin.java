@@ -27,66 +27,137 @@ public class Admin extends DataManagement {
 
     /**
      * Admin can update a Flight features by using flight id
-     *
-     * @param flights array of flights
+     * <p>
+     * //     * @param flights array of flights
      */
-    public void update(Flights flights) {
-        int i = flights.searchFlight();
-        if (i == -1) {
+//    public void update(Flights flights) throws IOException {
+//
+//        if (flights.flight[i].getReserveCount() > 0) {
+//            System.out.println("The flight is booked, you cannot update it !!!");
+//            return;
+//        }
+//
+//        String strtmp = new String();
+//        System.out.print(".........................................................................................................................\n");
+//        System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", flights.flight[i].getFlightId(), flights.flight[i].getOrigin(), flights.flight[i].getDestination(), flights.flight[i].getDate(), flights.flight[i].getTime(), flights.flight[i].getPrice(), flights.flight[i].getSeat());
+//        System.out.print(".........................................................................................................................\n");
+//        System.out.println("Set new FlightId :\n" + "   <*>skip");
+//        strtmp = scanner.next();
+//        if (!Objects.equals(strtmp, "*")) {
+//            flights.flight[i].setFlightId(strtmp, flights);
+//        }
+//        System.out.println("Set new Origin :\n" + "   <*>skip");
+//        strtmp = scanner.next();
+//        if (!Objects.equals(strtmp, "*")) {
+//            flights.flight[i].setOrigin(strtmp);
+//        }
+//        System.out.println("Set new Destination :\n" + "   <*>skip");
+//        strtmp = scanner.next();
+//        if (!Objects.equals(strtmp, "*")) {
+//            flights.flight[i].setDestination(strtmp);
+//        }
+//        System.out.println("Set new Date :\n" + "   <*>skip");
+//        strtmp = scanner.next();
+//        if (!Objects.equals(strtmp, "*")) {
+//            flights.flight[i].setDate(strtmp);
+//        }
+//        System.out.println("Set new Time :\n" + "   <*>skip");
+//        strtmp = scanner.next();
+//        if (!Objects.equals(strtmp, "*")) {
+//            flights.flight[i].setTime(strtmp);
+//        }
+//        System.out.println("Set new Price :\n" + "   <*>skip");
+//        strtmp = scanner.next();
+//        if (!Objects.equals(strtmp, "*")) {
+//            flights.flight[i].setPrice(strtmp);
+//        }
+//        System.out.println("Set new Seat :\n" + "   <*>skip");
+//        strtmp = scanner.next();
+//        if (!Objects.equals(strtmp, "*")) {
+//            flights.flight[i].setSeat(strtmp);
+//        }
+//        System.out.println("Flight updated >>");
+//        System.out.print(".........................................................................................................................\n");
+//        System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", flights.flight[i].getFlightId(), flights.flight[i].getOrigin(), flights.flight[i].getDestination(), flights.flight[i].getDate(), flights.flight[i].getTime(), flights.flight[i].getPrice(), flights.flight[i].getSeat());
+//        System.out.print(".........................................................................................................................\n");
+//    }
+    private void update() throws IOException {
+        flightData = open(flightDataPath);
+        System.out.println("Enter FlightId :");
+        if (!searchFlightById(scanner.next())) {
             System.out.println("Wrong FlightId !!!");
+            flightData.close();
             return;
         }
-        if (flights.flight[i].getReserveCount() > 0) {
+        flightData.seek(flightData.getFilePointer() + 14 * FIXED_SIZE);
+        if (flightData.readInt() > 0) {
             System.out.println("The flight is booked, you cannot update it !!!");
+            flightData.close();
             return;
         }
-
+        flightData.seek(flightData.getFilePointer() - (14 * FIXED_SIZE + 4));
+        System.out.println("is here : " + flightData.getFilePointer());
         String strtmp = new String();
         System.out.print(".........................................................................................................................\n");
-        System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", flights.flight[i].getFlightId(), flights.flight[i].getOrigin(), flights.flight[i].getDestination(), flights.flight[i].getDate(), flights.flight[i].getTime(), flights.flight[i].getPrice(), flights.flight[i].getSeat());
+        System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData));
         System.out.print(".........................................................................................................................\n");
+        flightData.seek(flightData.getFilePointer() - (14 * FIXED_SIZE));
         System.out.println("Set new FlightId :\n" + "   <*>skip");
         strtmp = scanner.next();
         if (!Objects.equals(strtmp, "*")) {
-            flights.flight[i].setFlightId(strtmp, flights);
+            flightData.writeChars(fixedStringToWrite(strtmp));
+        } else {
+            flightData.seek(flightData.getFilePointer() + 2 * FIXED_SIZE);
         }
         System.out.println("Set new Origin :\n" + "   <*>skip");
         strtmp = scanner.next();
         if (!Objects.equals(strtmp, "*")) {
-            flights.flight[i].setOrigin(strtmp);
+            flightData.writeChars(fixedStringToWrite(strtmp));
+        } else {
+            flightData.seek(flightData.getFilePointer() + 2 * FIXED_SIZE);
         }
         System.out.println("Set new Destination :\n" + "   <*>skip");
         strtmp = scanner.next();
         if (!Objects.equals(strtmp, "*")) {
-            flights.flight[i].setDestination(strtmp);
+            flightData.writeChars(fixedStringToWrite(strtmp));
+        } else {
+            flightData.seek(flightData.getFilePointer() + 2 * FIXED_SIZE);
         }
         System.out.println("Set new Date :\n" + "   <*>skip");
         strtmp = scanner.next();
         if (!Objects.equals(strtmp, "*")) {
-            flights.flight[i].setDate(strtmp);
+            flightData.writeChars(fixedStringToWrite(strtmp));
+        } else {
+            flightData.seek(flightData.getFilePointer() + 2 * FIXED_SIZE);
         }
         System.out.println("Set new Time :\n" + "   <*>skip");
         strtmp = scanner.next();
         if (!Objects.equals(strtmp, "*")) {
-            flights.flight[i].setTime(strtmp);
+            flightData.writeChars(fixedStringToWrite(strtmp));
+        } else {
+            flightData.seek(flightData.getFilePointer() + 2 * FIXED_SIZE);
         }
         System.out.println("Set new Price :\n" + "   <*>skip");
         strtmp = scanner.next();
         if (!Objects.equals(strtmp, "*")) {
-            flights.flight[i].setPrice(strtmp);
+            flightData.writeChars(fixedStringToWrite(strtmp));
+        } else {
+            flightData.seek(flightData.getFilePointer() + 2 * FIXED_SIZE);
         }
         System.out.println("Set new Seat :\n" + "   <*>skip");
         strtmp = scanner.next();
         if (!Objects.equals(strtmp, "*")) {
-            flights.flight[i].setSeat(strtmp);
+            flightData.writeChars(fixedStringToWrite(strtmp));
+        } else {
+            flightData.seek(flightData.getFilePointer() + 2 * FIXED_SIZE);
         }
+        flightData.seek(flightData.getFilePointer() - 14 * FIXED_SIZE);
+        System.out.println("" + flightData.getFilePointer());
         System.out.println("Flight updated >>");
         System.out.print(".........................................................................................................................\n");
-        System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", flights.flight[i].getFlightId(), flights.flight[i].getOrigin(), flights.flight[i].getDestination(), flights.flight[i].getDate(), flights.flight[i].getTime(), flights.flight[i].getPrice(), flights.flight[i].getSeat());
+        System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData));
         System.out.print(".........................................................................................................................\n");
-    }
-
-    private void update() {
+        flightData.close();
     }
     //=======================================   admin menu   =============================
 
@@ -102,7 +173,7 @@ public class Admin extends DataManagement {
                     add(flights);
                     break;
                 case 2:
-                    update(flights);
+//                    update(flights);
                     break;
                 case 3:
                     remove(flights);
@@ -138,7 +209,7 @@ public class Admin extends DataManagement {
                     remove();
                     break;
                 case "4":
-//                    flights.flightSchedule(flights);
+                    flightSchedule();
                     break;
                 case "0":
                     return;
@@ -150,8 +221,20 @@ public class Admin extends DataManagement {
 
         }
     }
+//=======================================   flight schedule   =============================
 
-
+    private void flightSchedule() throws IOException {
+        flightData = open(flightDataPath);
+        System.out.print(".........................................................................................................................\n");
+        System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", "FlightId", "Origin", "Destination", "Date", "Time", "Price", "Seat");
+        for (int i = 0; i < flightData.length() / (14 * FIXED_SIZE + 4); i++) {
+            flightData.seek(i * (14 * FIXED_SIZE + 4));
+            System.out.print(".........................................................................................................................\n");
+            System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData));
+        }
+        System.out.print(".........................................................................................................................\n");
+        flightData.close();
+    }
 
 
 //=======================================   add   =============================
@@ -183,6 +266,7 @@ public class Admin extends DataManagement {
         System.out.println("Set Seat : ");
         flights.flight[i].setSeat(scanner.next());
     }
+
     public void add() throws IOException {
         Flight flight = new Flight();
         System.out.println("Set FlightId : ");
@@ -199,6 +283,8 @@ public class Admin extends DataManagement {
         flight.setPrice(scanner.next());
         System.out.println("Set Seat : ");
         flight.setSeat(scanner.next());
+        flightData = open(flightDataPath);
+        flightData.seek(flightData.length());
         writeFlight(flight);
     }
 //=======================================   remove   =============================
@@ -221,7 +307,36 @@ public class Admin extends DataManagement {
         }
         flights.flight[i] = null;
     }
-    private void remove() {
+
+    private void remove() throws IOException {
+        flightData = open(flightDataPath);
+        System.out.println("Enter FlightId :");
+        if (!searchFlightById(scanner.next())) {
+            System.out.println("Wrong FlightId !!!");
+            flightData.close();
+            return;
+        }
+        flightData.seek(flightData.getFilePointer() + (14 * FIXED_SIZE));
+        if (flightData.readInt() > 0){
+            System.out.println("The flight is booked, you cannot remove it !!!");
+            flightData.close();
+            return;
+        }
+        String strtmp = "";
+        int inttmp;
+
+        for (int i = 0; i < ((flightData.length() - flightData.getFilePointer()) / (14 * FIXED_SIZE + 4)); i++) {
+            for (int j = 0; j < 7 * FIXED_SIZE; j++) {
+                strtmp += flightData.readChar();
+            }
+            inttmp = flightData.readInt();
+            flightData.seek(flightData.getFilePointer() - 2 * (14 * FIXED_SIZE + 4));
+            flightData.writeChars(strtmp);
+            flightData.writeInt(inttmp);
+            flightData.seek(flightData.getFilePointer() + (14 * FIXED_SIZE + 4));
+        }
+        flightData.setLength(flightData.length() - (14 * FIXED_SIZE + 4));
+        flightData.close();
     }
 
     public String getUserName() {

@@ -11,7 +11,7 @@ public class Flights {
      * @param flights
      */
     public void flightLib(Flights flights) {
-        flights.flight[0] = new Flight("YT-30", "Yazd", "Tehran", "1402-01-20", "13:15", "500000", "300");
+        flights.flight[0] = new Flight("YT-30", "Yazd", "Tehran", "1402-01-20", "13:15", "500000", "100");
         flights.flight[1] = new Flight("MG-43", "Mashhad", "Ghazvin", "1402-01-17", "12:30", "2000000", "123");
         flights.flight[2] = new Flight("SA-90", "Sari", "Ardabil", "1402-01-23", "2:45", "400000", "200");
         flights.flight[3] = new Flight("GB-37", "Ghom", "Bandarabbas", "1402-01-30", "14:35", "320000", "110");
@@ -29,8 +29,7 @@ public class Flights {
      * @param flights
      */
     public void flightSchedule(Flights flights) {
-        System.out.print(".........................................................................................................................\n");
-        System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", "FlightId", "Origin", "Destination", "Date", "Time", "Price", "Seat");
+
         for (int i = 0; i < flights.flight.length; i++) {
             if (flights.flight[i] != null) {
                 System.out.print(".........................................................................................................................\n");

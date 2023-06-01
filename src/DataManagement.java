@@ -26,7 +26,15 @@ public class DataManagement extends Data {
         flightData.writeInt(0);  //reservation counter
         flightData.close();
     }
-
+    public void writeTicket(Ticket ticket) throws IOException {
+        ticketsData.writeChars(fixedStringToWrite(ticket.getFlightId()));
+        ticketsData.writeChars(fixedStringToWrite(ticket.getOrigin()));
+        ticketsData.writeChars(fixedStringToWrite(ticket.getDestination()));
+        ticketsData.writeChars(fixedStringToWrite(ticket.getDate()));
+        ticketsData.writeChars(fixedStringToWrite(ticket.getTime()));
+        ticketsData.writeChars(fixedStringToWrite(ticket.getPrice()));
+        ticketsData.writeChars(fixedStringToWrite(ticket.getSeat()));
+    }
     public String readString(RandomAccessFile rfile) throws IOException {
         String str = "";
         for (int i = 0; i < FIXED_SIZE; i++) {

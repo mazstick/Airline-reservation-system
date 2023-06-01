@@ -1,6 +1,5 @@
 package src;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -46,7 +45,7 @@ public class Passengers extends DataManagement {
                     changePassword();
                     break;
                 case 2://Search flight tickets
-                    SearchTicket searchTicket = new SearchTicket(tickets);
+//                    SearchTicket searchTicket = new SearchTicket(tickets);
                     break;
                 case 3://Booking ticket
                     bookingTicket(flights, index);
@@ -55,7 +54,7 @@ public class Passengers extends DataManagement {
                     ticketCancelation(flights);
                     break;
                 case 5://Booked tickets
-                    bookedTickets();
+                    bookedTicket();
                     break;
                 case 6://Add charge
                     System.out.println("You have " + getCharge() + " $ now");
@@ -71,37 +70,45 @@ public class Passengers extends DataManagement {
     }
 
     public void passengersMenu(long passengerPassPointer) throws IOException {
-//        System.out.println(passengerPassPointer);
-        int choice;
+        passengersData = open(passengersDataPath);
+        passengersData.seek(passengerPassPointer - (4 * FIXED_SIZE));
+        setUserName(readString(passengersData));
+        passengersData.close();
+        String choice;
         while (true) {
             printPassengersMenu();
-            choice = scanner.nextInt();
+            choice = scanner.next();
             switch (choice) {
-                case 1://Change password
+                case "1"://Change password
                     passengersData = open(passengersDataPath);
                     passengersData.seek(passengerPassPointer - (2 * FIXED_SIZE));
                     changePassword();
                     break;
-                case 2://Search flight tickets
-                    SearchTicket searchTicket = new SearchTicket(tickets);
+                case "2"://Search flight tickets
+                    SearchTicket searchTicket = new SearchTicket(getUserName());
+                    System.out.println("Not build yet!!");
                     break;
-                case 3://Booking ticket
-//                    bookingTicket(flights, index);
+                case "3"://Booking ticket
+                    bookingTicket(passengerPassPointer);
                     break;
-                case 4://Ticket cancelation
-//                    ticketCancelation(flights);
+                case "4"://Ticket cancelation
+                    ticketCancelation(passengerPassPointer);
                     break;
-                case 5://Booked tickets
+                case "5"://Booked tickets
                     bookedTickets();
                     break;
-                case 6://Add charge
+                case "6"://Add charge
                     addCharge(passengerPassPointer);
                     break;
-                case 0://Sign out
+                case "0"://Sign out
                     return;
+                default:
+                    System.out.println("Wrong choice!!");
+                    break;
             }
         }
     }
+
 
     private void addCharge(long pos) throws IOException {
         passengersData = open(passengersDataPath);
@@ -142,10 +149,44 @@ public class Passengers extends DataManagement {
         System.out.println("Cannot find your TicketId!!!");
     }
 
+    private void ticketCancelation(long passengerPassPointer ) throws IOException {
+        System.out.println("Please enter your TicketId >>>");
+        String ticketId = scanner.next();
+        ticketsData = open(ticketDataPath);
+        for (int i = 0; i < ticketsData.length() / (18 * FIXED_SIZE); i++) {
+            ticketsData.seek(i * 18 * FIXED_SIZE + 2 * FIXED_SIZE);
+            String tmp = readString(ticketsData);
+            if (ticketId.equals(tmp)) {
+
+                removeLine(i * 18 * FIXED_SIZE);
+                System.out.println("--Done--");
+                return;
+            }
+        }
+
+    }
+
+    private void removeLine(long pos) throws IOException {
+        ticketsData.seek(pos);
+        System.out.println("h :"+ticketsData.getFilePointer());
+        for (int i = 1; i < (ticketsData.length() - ticketsData.getFilePointer()) / (18 * FIXED_SIZE); i++) {
+            ticketsData.seek(ticketsData.getFilePointer() + 18 * FIXED_SIZE);
+            System.out.println(ticketsData.getFilePointer());
+            String tmp = "";
+            for (int j = 0; j < 9 * FIXED_SIZE; j++) {
+                tmp += ticketsData.readChar();
+            }
+            ticketsData.seek(ticketsData.getFilePointer() - (2 * (18 * FIXED_SIZE)));
+            ticketsData.writeChars(tmp);
+        }
+        ticketsData.setLength(ticketsData.length() - 18 * FIXED_SIZE);
+        ticketsData.close();
+    }
+
     /**
      * This method print booked ticket
      */
-    private void bookedTickets() {
+    private void bookedTicket() {
 
         System.out.print("..........................................................................................................................................\n");
         System.out.printf("|%-15s |%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |%n", "TicketId", "FlightId", "Origin", "Destination", "Date", "Time", "Price", "Seat");
@@ -156,6 +197,23 @@ public class Passengers extends DataManagement {
             }
         }
         System.out.print("..........................................................................................................................................\n");
+    }
+
+    private void bookedTickets() throws IOException {
+        ticketsData = open(ticketDataPath);
+        System.out.print("..........................................................................................................................................\n");
+        System.out.printf("|%-15s |%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |%n", "TicketId", "FlightId", "Origin", "Destination", "Date", "Time", "Price", "Seat");
+
+        for (int i = 0; i < ticketsData.length() / (18 * FIXED_SIZE); i++) {
+            ticketsData.seek((long) i * 18 * FIXED_SIZE);
+            if (readString(ticketsData).equals(getUserName())) {
+                System.out.print("..........................................................................................................................................\n");
+                System.out.printf("|%-15s |%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |%n", readString(ticketsData), readString(ticketsData), readString(ticketsData), readString(ticketsData), readString(ticketsData), readString(ticketsData), readString(ticketsData), readString(ticketsData));
+
+            }
+        }
+        System.out.print("..........................................................................................................................................\n");
+        ticketsData.close();
     }
 
     /**
@@ -171,7 +229,6 @@ public class Passengers extends DataManagement {
 //            System.out.println("Wrong password !!");
 //        }
 //    }
-
     public void changePassword() throws IOException {
 //        passengersData = open(path);
         System.out.println("Enter your current password :");
@@ -223,6 +280,58 @@ public class Passengers extends DataManagement {
             }
         }
 
+    }
+
+    public void bookingTicket(long pos) throws IOException {
+        Admin admin = new Admin();
+        admin.flightSchedule();
+        ticketsData = open(ticketDataPath);
+        ticketsData.seek(ticketsData.length());
+        flightData = open(flightDataPath);
+        System.out.println("Enter FlightId :");
+        String tmp = scanner.next();
+        if (!searchFlightById(tmp)) {
+            System.out.println("Wrong FlightId !!!");
+            flightData.close();
+            ticketsData.close();
+            return;
+        }
+        flightData.seek(12 * FIXED_SIZE);
+        if (readString(flightData).equals("0")) {
+            System.out.println("The flight is full!!");
+            flightData.close();
+            ticketsData.close();
+            return;
+        }
+        flightData.seek(flightData.getFilePointer() - (4 * FIXED_SIZE));
+        int x = Integer.parseInt(readString(flightData));
+        flightData.seek(flightData.getFilePointer() - (12 * FIXED_SIZE));
+        passengersData = open(passengersDataPath);
+        passengersData.seek(pos);
+        int y = passengersData.readInt();
+        if (y - x < 0) {
+            System.out.println("You do not have enough money to get this flight \n" +
+                    "please recharge your account >>");
+            flightData.close();
+            passengersData.close();
+            ticketsData.close();
+            return;
+        } else {
+            passengersData.seek(passengersData.getFilePointer() - 4);
+            passengersData.writeInt(y - x);
+            passengersData.close();
+        }
+        ticketsData.writeChars(fixedStringToWrite(getUserName()));              //username
+        ticketsData.writeChars(fixedStringToWrite(tmp + "-" + getUserName()));  //ticket id
+        System.out.println("Your ticket id >> " + fixedStringToWrite(tmp + "-" + getUserName()));
+        Ticket ticket = new Ticket(readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData));
+        writeTicket(ticket);
+        int reservationCounter = flightData.readInt();
+        System.out.println("reservation : " + (reservationCounter + 1));
+        flightData.seek(flightData.getFilePointer() - 4);
+        flightData.writeInt((reservationCounter + 1));
+        ticketsData.close();
+        flightData.close();
     }
 
     public String getUserName() {

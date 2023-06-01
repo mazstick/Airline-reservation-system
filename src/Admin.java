@@ -96,7 +96,6 @@ public class Admin extends DataManagement {
             return;
         }
         flightData.seek(flightData.getFilePointer() - (14 * FIXED_SIZE + 4));
-        System.out.println("is here : " + flightData.getFilePointer());
         String strtmp = new String();
         System.out.print(".........................................................................................................................\n");
         System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData));
@@ -223,7 +222,7 @@ public class Admin extends DataManagement {
     }
 //=======================================   flight schedule   =============================
 
-    private void flightSchedule() throws IOException {
+    public void flightSchedule() throws IOException {
         flightData = open(flightDataPath);
         System.out.print(".........................................................................................................................\n");
         System.out.printf("|%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |\n", "FlightId", "Origin", "Destination", "Date", "Time", "Price", "Seat");
@@ -317,23 +316,36 @@ public class Admin extends DataManagement {
             return;
         }
         flightData.seek(flightData.getFilePointer() + (14 * FIXED_SIZE));
-        if (flightData.readInt() > 0){
+        int tmp = flightData.readInt();
+//        System.out.println("reservation : "+tmp);
+//        System.out.println("is here : " + flightData.getFilePointer());
+        if (tmp > 0) {
             System.out.println("The flight is booked, you cannot remove it !!!");
             flightData.close();
             return;
         }
-        String strtmp = "";
-        int inttmp;
 
-        for (int i = 0; i < ((flightData.length() - flightData.getFilePointer()) / (14 * FIXED_SIZE + 4)); i++) {
+//        System.out.println(((flightData.length() - flightData.getFilePointer()) / (14 * FIXED_SIZE + 4)));
+        for (int i = 0; i <= ((flightData.length() - flightData.getFilePointer()) / (14 * FIXED_SIZE + 4)); i++) {
+            String strtmp = "";
+            int inttmp;
+            System.out.println("ok");
             for (int j = 0; j < 7 * FIXED_SIZE; j++) {
                 strtmp += flightData.readChar();
             }
             inttmp = flightData.readInt();
+//            System.out.println("1 :"+flightData.getFilePointer());
             flightData.seek(flightData.getFilePointer() - 2 * (14 * FIXED_SIZE + 4));
+
+//            System.out.println("2 :"+flightData.getFilePointer());
             flightData.writeChars(strtmp);
             flightData.writeInt(inttmp);
+//            System.out.println(strtmp + "  " + inttmp);
+
+//            System.out.println("3 :"+flightData.getFilePointer());
             flightData.seek(flightData.getFilePointer() + (14 * FIXED_SIZE + 4));
+
+//            System.out.println("4 :"+flightData.getFilePointer());
         }
         flightData.setLength(flightData.length() - (14 * FIXED_SIZE + 4));
         flightData.close();

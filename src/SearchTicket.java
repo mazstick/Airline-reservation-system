@@ -1,8 +1,9 @@
 package src;
 
+import java.io.IOException;
 import java.util.Scanner;
 
-public class SearchTicket {
+public class SearchTicket extends DataManagement {
     private boolean[] searchList = new boolean[7];
     private String flightId;
     private String origin;
@@ -16,9 +17,10 @@ public class SearchTicket {
 
     /**
      * The user determines the ticket based on which feature or features to filter
-     * @param tickets
+     *
+     * @param username
      */
-    public SearchTicket(Tickets tickets) {
+    public SearchTicket(String username) throws IOException {
         for (int i = 0; i < 7; i++) {
             searchList[i] = false;
         }
@@ -74,7 +76,7 @@ public class SearchTicket {
                     searchList[6] = true;
                     break;
                 case "0":
-                    findAndFilter(searchList, tickets);
+                    findAndFilter(searchList, username);
                     for (int i = 0; i < 7; i++) {
                         searchList[i] = false;
                     }
@@ -90,8 +92,102 @@ public class SearchTicket {
 
     }
 
+    public void findAndFilter(boolean[] searchList, String username) throws IOException {
+        ticketsData = open(ticketDataPath);
+        boolean[] sample = new boolean[7];
+        for (int i = 0; i < 7; i++) {
+            sample[i] = false;
+        }
+        System.out.print("..........................................................................................................................................\n");
+        System.out.printf("|%-15s |%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |%n", "TicketId", "FlightId", "Origin", "Destination", "Date", "Time", "Price", "Seat");
+//        System.out.println(ticketsData.length() / (18 * FIXED_SIZE));
+        for (int i = 0; i < ticketsData.length() / (18 * FIXED_SIZE); i++) {
+            ticketsData.seek(i * 18 * FIXED_SIZE);
+//            System.out.println("pos :" + ticketsData.getFilePointer());
+            if (readString(ticketsData).equals(username)) {
+                ticketsData.seek(ticketsData.getFilePointer() + 2 * FIXED_SIZE);
+//                System.out.println("pos" + ticketsData.getFilePointer());
+                //Search flight id --------------------
+                if (searchList[0]) {
+                    if (flightId.equals(readString(ticketsData))) {
+                        sample[0] = true;
+                    }
+                } else {
+                    ticketsData.seek(ticketsData.getFilePointer() + 2 * FIXED_SIZE);
+                }
+                //Search origin
+                if (searchList[1]) {
+                    if (origin.equals(readString(ticketsData))) {
+                        sample[1] = true;
+                    }
+                } else {
+                    ticketsData.seek(ticketsData.getFilePointer() + 2 * FIXED_SIZE);
+                }
+                //Search destination
+                if (searchList[2]) {
+                    if (destination.equals(readString(ticketsData))) {
+                        sample[2] = true;
+                    }
+                } else {
+                    ticketsData.seek(ticketsData.getFilePointer() + 2 * FIXED_SIZE);
+                }
+                //search date
+                if (searchList[3]) {
+                    if (date.equals(readString(ticketsData))) {
+                        sample[3] = true;
+                    }
+                } else {
+                    ticketsData.seek(ticketsData.getFilePointer() + 2 * FIXED_SIZE);
+                }
+                //search time
+                if (searchList[4]) {
+                    if (time.equals(readString(ticketsData))) {
+                        sample[4] = true;
+                    }
+                } else {
+                    ticketsData.seek(ticketsData.getFilePointer() + 2 * FIXED_SIZE);
+                }
+                //search price
+                if (searchList[5]) {
+                    int tmp = Integer.parseInt(readString(ticketsData));
+                    if (tmp > priceI && tmp < priceF) {
+                        sample[5] = true;
+                    }
+                } else {
+                    ticketsData.seek(ticketsData.getFilePointer() + 2 * FIXED_SIZE);
+                }
+                //search seat
+                if (searchList[6]) {
+                    if (Integer.parseInt(readString(ticketsData)) > seat) {
+                        sample[6] = true;
+                    }
+                } else {
+                    ticketsData.seek(ticketsData.getFilePointer() + 2 * FIXED_SIZE);
+                }
+                int counter = 0;
+                for (int j = 0; j < 7; j++) {
+                    if (sample[j] == searchList[j]) {
+                        counter++;
+                    }
+                }
+                if (counter == 7) {
+                    ticketsData.seek(ticketsData.getFilePointer() - 16 * FIXED_SIZE);
+                    System.out.print("..........................................................................................................................................\n");
+                    System.out.printf("|%-15s |%-15s |%-15s |%-15s  |%-15s |%-15s |%-15s |%-15s |%n", readString(ticketsData), readString(ticketsData), readString(ticketsData), readString(ticketsData), readString(ticketsData), readString(ticketsData), readString(ticketsData) , readString(ticketsData));
+                }
+            }
+            //sample = false
+            for (int j = 0; j < 7; j++) {
+                sample[j] = false;
+            }
+        }
+        System.out.print("..........................................................................................................................................\n");
+
+    }
+
     /**
      * If all the features specified by the user are available in a ticket, the ticket should be printed using this method
+     *
      * @param searchList
      * @param tickets
      */

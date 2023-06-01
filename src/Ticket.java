@@ -30,6 +30,7 @@ public class Ticket {
         this.price = price;
         this.seat = seat;
     }
+   
 
     public String getTicketId() {
         return ticketId;

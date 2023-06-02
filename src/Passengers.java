@@ -149,7 +149,7 @@ public class Passengers extends DataManagement {
         System.out.println("Cannot find your TicketId!!!");
     }
 
-    private void ticketCancelation(long passengerPassPointer ) throws IOException {
+    private void ticketCancelation(long passengerPassPointer) throws IOException {
         System.out.println("Please enter your TicketId >>>");
         String ticketId = scanner.next();
         ticketsData = open(ticketDataPath);
@@ -163,15 +163,18 @@ public class Passengers extends DataManagement {
                 return;
             }
         }
+        System.out.println("Ticket id not found !!!");
 
     }
 
     private void removeLine(long pos) throws IOException {
         ticketsData.seek(pos);
-        System.out.println("h :"+ticketsData.getFilePointer());
-        for (int i = 1; i < (ticketsData.length() - ticketsData.getFilePointer()) / (18 * FIXED_SIZE); i++) {
+//        System.out.println("h :" + ticketsData.getFilePointer());
+//        System.out.println((ticketsData.length() - ticketsData.getFilePointer()) / (18 * FIXED_SIZE));
+        int len = (int) ((ticketsData.length() - ticketsData.getFilePointer()) / (18 * FIXED_SIZE));
+        for (int i = 1; i < len; i++) {
             ticketsData.seek(ticketsData.getFilePointer() + 18 * FIXED_SIZE);
-            System.out.println(ticketsData.getFilePointer());
+//            System.out.println(ticketsData.getFilePointer());
             String tmp = "";
             for (int j = 0; j < 9 * FIXED_SIZE; j++) {
                 tmp += ticketsData.readChar();
@@ -296,7 +299,8 @@ public class Passengers extends DataManagement {
             ticketsData.close();
             return;
         }
-        flightData.seek(12 * FIXED_SIZE);
+//        System.out.println("flightdata pointer : " + flightData.getFilePointer());
+        flightData.seek(flightData.getFilePointer() + (12 * FIXED_SIZE));
         if (readString(flightData).equals("0")) {
             System.out.println("The flight is full!!");
             flightData.close();
@@ -327,8 +331,12 @@ public class Passengers extends DataManagement {
         Ticket ticket = new Ticket(readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData), readString(flightData));
         writeTicket(ticket);
         int reservationCounter = flightData.readInt();
-        System.out.println("reservation : " + (reservationCounter + 1));
-        flightData.seek(flightData.getFilePointer() - 4);
+//        System.out.println("reservation : " + (reservationCounter + 1));
+//        System.out.println("flightdata pointer : " + flightData.getFilePointer());
+        flightData.seek(flightData.getFilePointer() - (2 * FIXED_SIZE + 4));
+        int tmp1 = Integer.parseInt(readString(flightData));
+        flightData.seek(flightData.getFilePointer() - (2 * FIXED_SIZE));
+        flightData.writeChars(fixedStringToWrite(String.valueOf(tmp1-1)));
         flightData.writeInt((reservationCounter + 1));
         ticketsData.close();
         flightData.close();

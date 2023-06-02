@@ -329,7 +329,7 @@ public class Admin extends DataManagement {
         for (int i = 0; i <= ((flightData.length() - flightData.getFilePointer()) / (14 * FIXED_SIZE + 4)); i++) {
             String strtmp = "";
             int inttmp;
-            System.out.println("ok");
+//            System.out.println("ok");
             for (int j = 0; j < 7 * FIXED_SIZE; j++) {
                 strtmp += flightData.readChar();
             }
